@@ -40,20 +40,42 @@ public abstract class ConfigurationLoader {
 			if (doc != null)
 			{
 				XPath xpath = XPATH.newXPath();
-				XPathExpression expValidator = xpath.compile("configuration/validator");
+				XPathExpression expExpressionNode = xpath.compile("configuration/expression");
 				XPathExpression expXpathExpression = xpath.compile("@xpathExpression");
-				XPathExpression expValidatorClass = xpath.compile("@validatorClass");
+				XPathExpression expValidatorNode = xpath.compile("validator");
+				XPathExpression expValidatorClassName = xpath.compile("@className");
 				
-				NodeList validators = (NodeList) expValidator.evaluate(doc, XPathConstants.NODESET);
-				for (int i =0; i < validators.getLength(); i++)
+				NodeList expressionNodes = (NodeList) expExpressionNode.evaluate(doc, XPathConstants.NODESET);
+				for (int i =0; i < expressionNodes.getLength(); i++)
 				{
-					Node validator = validators.item(i);
-					String xpathExpression = (String)expXpathExpression.evaluate(validator, XPathConstants.STRING);
-					String validatorClassname = (String)expValidatorClass.evaluate(validator, XPathConstants.STRING);
+					Node expressionNode = expressionNodes.item(i);
+					String xpathExpression = (String)expXpathExpression.evaluate(expressionNode, XPathConstants.STRING);
+					
+					//String validatorClassname = (String)expValidatorClass.evaluate(validator, XPathConstants.STRING);
 					
 					Configuration config = new Configuration();
-					config.setValidatorClass(validatorClassname);
+					//config.setValidatorClass(validatorClassname);
 					config.setXpathExpression(xpathExpression);
+					
+					
+					NodeList validatorNodes = (NodeList)expValidatorNode.evaluate(expressionNode, XPathConstants.NODESET);
+					
+					for (int j = 0; j < validatorNodes.getLength(); j++)
+					{
+						Node validatorNode = validatorNodes.item(j);
+						String className = (String)expValidatorClassName.evaluate(validatorNode, XPathConstants.STRING);
+						
+						if (className != null)
+						{
+							if (config.getValidators() == null) 
+							{
+								config.setValidators(new ArrayList<String>());
+							}
+							
+							config.getValidators().add(className);
+						}
+						
+					}
 					
 					if (configItems == null) {
 						configItems = new ArrayList<Configuration>();

@@ -1,3 +1,5 @@
 <configuration>
-	<validator xpathExpression="ClinicalDocument/documentationOf/serviceEvent/code" validatorClass="org.sitenv.xml.xpathvalidator.engine.validators.VocabularyValidator"/>
+	<expression xpathExpression="ClinicalDocument/documentationOf/serviceEvent/code">
+		<validator className="org.sitenv.xml.validators.ccda.CcdaCodeValidator" />
+	</expression>
 </configuration>

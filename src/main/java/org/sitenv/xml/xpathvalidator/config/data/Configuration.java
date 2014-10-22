@@ -1,16 +1,18 @@
 package org.sitenv.xml.xpathvalidator.config.data;
 
+import java.util.List;
+
 public class Configuration {
 
 	private String xpathExpression;
-	private String validatorClass;
+	private List<String> validators;
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((validatorClass == null) ? 0 : validatorClass.hashCode());
+				+ ((validators == null) ? 0 : validators.hashCode());
 		result = prime * result
 				+ ((xpathExpression == null) ? 0 : xpathExpression.hashCode());
 		return result;
@@ -25,10 +27,10 @@ public class Configuration {
 		if (getClass() != obj.getClass())
 			return false;
 		Configuration other = (Configuration) obj;
-		if (validatorClass == null) {
-			if (other.validatorClass != null)
+		if (validators == null) {
+			if (other.validators != null)
 				return false;
-		} else if (!validatorClass.equals(other.validatorClass))
+		} else if (!validators.equals(other.validators))
 			return false;
 		if (xpathExpression == null) {
 			if (other.xpathExpression != null)
@@ -46,13 +48,14 @@ public class Configuration {
 		this.xpathExpression = xpathExpression;
 	}
 
-	public String getValidatorClass() {
-		return validatorClass;
+	public List<String> getValidators() {
+		return validators;
 	}
 
-	public void setValidatorClass(String validatorClass) {
-		this.validatorClass = validatorClass;
+	public void setValidators(List<String> validators) {
+		this.validators = validators;
 	}
-
+	
+	
 	
 }

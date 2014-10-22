@@ -76,7 +76,6 @@ public class XPathValidationEngine {
 				
 				for (Configuration config : configs) {
 					// Instantiate the validator dynamically
-					XPathNodeValidator validator = (XPathNodeValidator)Class.forName(config.getValidatorClass()).newInstance();
 					XPath xpath = XPATH.newXPath();
 					
 					// Find all of the Nodes from the XML parser
@@ -84,15 +83,20 @@ public class XPathValidationEngine {
 					
 					for (int i = 0; i < nodes.getLength(); i++) {
 						
-						XPathValidatorResult result = validator.validateNode(xpath, nodes.item(i));
+						for (String validatorClass : config.getValidators()) {
 						
-						if (results == null) {
-							results = new ArrayList<XPathValidatorResult>();
-						}
-						
-						if (results != null && result != null)
-						{
-							results.add(result);
+							XPathNodeValidator validator = (XPathNodeValidator)Class.forName(validatorClass).newInstance();
+							
+							XPathValidatorResult result = validator.validateNode(xpath, nodes.item(i));
+							
+							if (results == null) {
+								results = new ArrayList<XPathValidatorResult>();
+							}
+							
+							if (results != null && result != null)
+							{
+								results.add(result);
+							}
 						}
 					}
 					
