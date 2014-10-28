@@ -87,7 +87,7 @@ public class XPathValidationEngine {
 						
 							XPathNodeValidator validator = (XPathNodeValidator)Class.forName(validatorClass).newInstance();
 							
-							XPathValidatorResult result = validator.validateNode(xpath, nodes.item(i));
+							XPathValidatorResult result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i);
 							
 							if (results == null) {
 								results = new ArrayList<XPathValidatorResult>();

@@ -14,7 +14,7 @@ public class VocabularyValidator implements XPathNodeValidator {
 
 	private static final Logger logger = Logger.getLogger(VocabularyValidator.class);
 	
-	public XPathValidatorResult validateNode(XPath xpath, Node node) {
+	public XPathValidatorResult validateNode(String expression, XPath xpath, Node node, int nodeIndex) {
 		
 		try
 		{

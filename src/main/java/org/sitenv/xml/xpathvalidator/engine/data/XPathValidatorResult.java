@@ -1,31 +1,35 @@
 package org.sitenv.xml.xpathvalidator.engine.data;
 
-public class XPathValidatorResult {
+public abstract class XPathValidatorResult {
 	
-	private boolean hasError;
-	private boolean hasWarning;
-	private boolean hasInfo;
+	protected boolean error;
+	protected boolean warning;
+	protected boolean information;
 	
-	private String errorMessage;
-	private String warningMessage;
-	private String infoMessage;
+	protected String errorMessage;
+	protected String warningMessage;
+	protected String infoMessage;
 	
+	protected String xpathExpression;
+	protected int nodeIndex;
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (error ? 1231 : 1237);
 		result = prime * result
 				+ ((errorMessage == null) ? 0 : errorMessage.hashCode());
-		result = prime * result + (hasError ? 1231 : 1237);
-		result = prime * result + (hasInfo ? 1231 : 1237);
-		result = prime * result + (hasWarning ? 1231 : 1237);
 		result = prime * result
 				+ ((infoMessage == null) ? 0 : infoMessage.hashCode());
+		result = prime * result + (information ? 1231 : 1237);
+		result = prime * result + nodeIndex;
+		result = prime * result + (warning ? 1231 : 1237);
 		result = prime * result
 				+ ((warningMessage == null) ? 0 : warningMessage.hashCode());
+		result = prime * result
+				+ ((xpathExpression == null) ? 0 : xpathExpression.hashCode());
 		return result;
 	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -35,78 +39,87 @@ public class XPathValidatorResult {
 		if (getClass() != obj.getClass())
 			return false;
 		XPathValidatorResult other = (XPathValidatorResult) obj;
+		if (error != other.error)
+			return false;
 		if (errorMessage == null) {
 			if (other.errorMessage != null)
 				return false;
 		} else if (!errorMessage.equals(other.errorMessage))
-			return false;
-		if (hasError != other.hasError)
-			return false;
-		if (hasInfo != other.hasInfo)
-			return false;
-		if (hasWarning != other.hasWarning)
 			return false;
 		if (infoMessage == null) {
 			if (other.infoMessage != null)
 				return false;
 		} else if (!infoMessage.equals(other.infoMessage))
 			return false;
+		if (information != other.information)
+			return false;
+		if (nodeIndex != other.nodeIndex)
+			return false;
+		if (warning != other.warning)
+			return false;
 		if (warningMessage == null) {
 			if (other.warningMessage != null)
 				return false;
 		} else if (!warningMessage.equals(other.warningMessage))
 			return false;
+		if (xpathExpression == null) {
+			if (other.xpathExpression != null)
+				return false;
+		} else if (!xpathExpression.equals(other.xpathExpression))
+			return false;
 		return true;
 	}
-
-	public boolean isHasError() {
-		return hasError;
+	public boolean hasError() {
+		return error;
 	}
-
-	public void setHasError(boolean hasError) {
-		this.hasError = hasError;
+	public void setError(boolean error) {
+		this.error = error;
 	}
-
-	public boolean isHasWarning() {
-		return hasWarning;
+	public boolean hasWarning() {
+		return warning;
 	}
-
-	public void setHasWarning(boolean hasWarning) {
-		this.hasWarning = hasWarning;
+	public void setWarning(boolean warning) {
+		this.warning = warning;
 	}
-
-	public boolean isHasInfo() {
-		return hasInfo;
+	public boolean hasInformation() {
+		return information;
 	}
-
-	public void setHasInfo(boolean hasInfo) {
-		this.hasInfo = hasInfo;
+	public void setInformation(boolean information) {
+		this.information = information;
 	}
-
 	public String getErrorMessage() {
 		return errorMessage;
 	}
-
 	public void setErrorMessage(String errorMessage) {
 		this.errorMessage = errorMessage;
 	}
-
 	public String getWarningMessage() {
 		return warningMessage;
 	}
-
 	public void setWarningMessage(String warningMessage) {
 		this.warningMessage = warningMessage;
 	}
-
 	public String getInfoMessage() {
 		return infoMessage;
 	}
-
 	public void setInfoMessage(String infoMessage) {
 		this.infoMessage = infoMessage;
 	}
+	public String getXpathExpression() {
+		return xpathExpression;
+	}
+	public void setXpathExpression(String xpathExpression) {
+		this.xpathExpression = xpathExpression;
+	}
+	public int getNodeIndex() {
+		return nodeIndex;
+	}
+	public void setNodeIndex(int nodeIndex) {
+		this.nodeIndex = nodeIndex;
+	}
 
+	
+	
 	
 	
 }

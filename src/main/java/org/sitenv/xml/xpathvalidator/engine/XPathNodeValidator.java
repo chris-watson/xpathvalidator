@@ -7,6 +7,6 @@ import org.w3c.dom.Node;
 
 public interface XPathNodeValidator {
 
-	public XPathValidatorResult validateNode(XPath xpath, Node node);
+	public XPathValidatorResult validateNode(String expression, XPath xpath, Node node, int nodeIndex);
 	
 }
