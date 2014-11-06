@@ -85,17 +85,42 @@ public class XPathValidationEngine {
 						
 						for (String validatorClass : config.getValidators()) {
 						
-							XPathNodeValidator validator = (XPathNodeValidator)Class.forName(validatorClass).newInstance();
+							Object obj = Class.forName(validatorClass).newInstance();
 							
-							XPathValidatorResult result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i);
+							if (obj instanceof XPathNodeValidator) {
 							
-							if (results == null) {
-								results = new ArrayList<XPathValidatorResult>();
-							}
+								XPathNodeValidator validator = (XPathNodeValidator)obj;
+								
+								XPathValidatorResult result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i);
+								
+								if (results == null) {
+									results = new ArrayList<XPathValidatorResult>();
+								}
+								
+								if (results != null && result != null)
+								{
+									results.add(result);
+								}
 							
-							if (results != null && result != null)
+							} 
+							else if (obj instanceof MultipleXPathNodeValidator) 
 							{
-								results.add(result);
+								MultipleXPathNodeValidator validator = (MultipleXPathNodeValidator)obj;
+								
+								List<XPathValidatorResult> result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i);
+								
+								if (results == null) {
+									results = new ArrayList<XPathValidatorResult>();
+								}
+								
+								if (results != null && result != null)
+								{
+									results.addAll(result);
+								}
+							}
+							else 
+							{
+								throw new InstantiationException("Could not instantiate either an XPathNodeValidator or MultiXPathNodeValidator instance.");
 							}
 						}
 					}
