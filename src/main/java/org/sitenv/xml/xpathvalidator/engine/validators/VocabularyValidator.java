@@ -1,5 +1,7 @@
 package org.sitenv.xml.xpathvalidator.engine.validators;
 
+import java.util.Map;
+
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -14,7 +16,7 @@ public class VocabularyValidator implements XPathNodeValidator {
 
 	private static final Logger logger = Logger.getLogger(VocabularyValidator.class);
 	
-	public XPathValidatorResult validateNode(String expression, XPath xpath, Node node, int nodeIndex) {
+	public XPathValidatorResult validateNode(String expression, XPath xpath, Node node, int nodeIndex, Map<String, String> params) {
 		
 		try
 		{

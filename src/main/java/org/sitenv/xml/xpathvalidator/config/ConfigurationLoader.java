@@ -2,6 +2,7 @@ package org.sitenv.xml.xpathvalidator.config;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +16,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.sitenv.xml.xpathvalidator.config.data.Configuration;
+import org.sitenv.xml.xpathvalidator.config.data.ValidatorConfig;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -45,6 +47,10 @@ public abstract class ConfigurationLoader {
 				XPathExpression expValidatorNode = xpath.compile("validator");
 				XPathExpression expValidatorClassName = xpath.compile("@className");
 				
+				XPathExpression expParamNodes = xpath.compile("param");
+				XPathExpression expKeyName = xpath.compile("@key");
+				XPathExpression expValueName = xpath.compile("@value");
+				
 				NodeList expressionNodes = (NodeList) expExpressionNode.evaluate(doc, XPathConstants.NODESET);
 				for (int i =0; i < expressionNodes.getLength(); i++)
 				{
@@ -69,10 +75,28 @@ public abstract class ConfigurationLoader {
 						{
 							if (config.getValidators() == null) 
 							{
-								config.setValidators(new ArrayList<String>());
+								config.setValidators(new ArrayList<ValidatorConfig>());
 							}
 							
-							config.getValidators().add(className);
+							ValidatorConfig vconfig = new ValidatorConfig();
+							vconfig.setValidatorClass(className);
+							
+							NodeList paramNodes = (NodeList)expParamNodes.evaluate(validatorNode, XPathConstants.NODESET);
+							
+							for (int k = 0; k < paramNodes.getLength(); k++)
+							{
+								Node paramNode = paramNodes.item(j);
+								String key = (String)expKeyName.evaluate(paramNode, XPathConstants.STRING);
+								String value = (String)expValueName.evaluate(paramNode, XPathConstants.STRING);
+								
+								if (vconfig.getParameters() == null) {
+									vconfig.setParameters(new HashMap<String,String>());
+								}
+								
+								vconfig.getParameters().put(key, value);
+								
+							}
+							config.getValidators().add(vconfig);
 						}
 						
 					}

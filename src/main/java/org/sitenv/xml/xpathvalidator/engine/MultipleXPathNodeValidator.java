@@ -1,6 +1,7 @@
 package org.sitenv.xml.xpathvalidator.engine;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.xpath.XPath;
 
@@ -9,6 +10,6 @@ import org.w3c.dom.Node;
 
 public interface MultipleXPathNodeValidator {
 	
-	public List<XPathValidatorResult> validateNode(String expression, XPath xpath, Node node, int nodeIndex);
+	public List<XPathValidatorResult> validateNode(String expression, XPath xpath, Node node, int nodeIndex, Map<String, String> params);
 
 }

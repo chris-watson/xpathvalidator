@@ -16,6 +16,7 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.log4j.Logger;
 import org.sitenv.xml.xpathvalidator.config.ConfigurationLoader;
 import org.sitenv.xml.xpathvalidator.config.data.Configuration;
+import org.sitenv.xml.xpathvalidator.config.data.ValidatorConfig;
 import org.sitenv.xml.xpathvalidator.engine.data.XPathValidatorResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -83,15 +84,15 @@ public class XPathValidationEngine {
 					
 					for (int i = 0; i < nodes.getLength(); i++) {
 						
-						for (String validatorClass : config.getValidators()) {
+						for (ValidatorConfig validatorConfig : config.getValidators()) {
 						
-							Object obj = Class.forName(validatorClass).newInstance();
+							Object obj = Class.forName(validatorConfig.getValidatorClass()).newInstance();
 							
 							if (obj instanceof XPathNodeValidator) {
 							
 								XPathNodeValidator validator = (XPathNodeValidator)obj;
 								
-								XPathValidatorResult result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i);
+								XPathValidatorResult result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i, validatorConfig.getParameters());
 								
 								if (results == null) {
 									results = new ArrayList<XPathValidatorResult>();
@@ -107,7 +108,7 @@ public class XPathValidationEngine {
 							{
 								MultipleXPathNodeValidator validator = (MultipleXPathNodeValidator)obj;
 								
-								List<XPathValidatorResult> result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i);
+								List<XPathValidatorResult> result = validator.validateNode(config.getXpathExpression(), xpath, nodes.item(i), i, validatorConfig.getParameters());
 								
 								if (results == null) {
 									results = new ArrayList<XPathValidatorResult>();

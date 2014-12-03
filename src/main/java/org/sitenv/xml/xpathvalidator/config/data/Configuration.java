@@ -5,7 +5,7 @@ import java.util.List;
 public class Configuration {
 
 	private String xpathExpression;
-	private List<String> validators;
+	private List<ValidatorConfig> validators;
 	
 	@Override
 	public int hashCode() {
@@ -48,11 +48,11 @@ public class Configuration {
 		this.xpathExpression = xpathExpression;
 	}
 
-	public List<String> getValidators() {
+	public List<ValidatorConfig> getValidators() {
 		return validators;
 	}
 
-	public void setValidators(List<String> validators) {
+	public void setValidators(List<ValidatorConfig> validators) {
 		this.validators = validators;
 	}
 	
